@@ -5,14 +5,22 @@ import { FadeInUp, SplitTextReveal } from './AnimatedReveal';
 
 export const Hero: React.FC = () => {
   const [startAnimations, setStartAnimations] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(typeof window !== 'undefined' ? window.innerWidth >= 1024 : true);
 
   useEffect(() => {
+    const handleResize = () => setIsDesktop(window.innerWidth >= 1024);
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
     // Start entry animations exactly when the page loader starts fading out (2.8 seconds)
     const timer = setTimeout(() => {
       setStartAnimations(true);
     }, 2800);
 
-    return () => clearTimeout(timer);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      clearTimeout(timer);
+    };
   }, []);
 
   const scrollToSection = (id: string) => {
@@ -55,7 +63,7 @@ export const Hero: React.FC = () => {
         <div 
           className="absolute inset-y-0 right-0 w-full lg:w-[52%] bg-gradient-to-br from-brand-magenta/80 via-brand-indigo/40 to-[#0A0A14] backdrop-blur-[6px] border-l border-white/5 transition-all duration-500"
           style={{
-            clipPath: window.innerWidth >= 1024 
+            clipPath: isDesktop 
               ? 'polygon(20% 0, 100% 0, 100% 100%, 0% 100%)' 
               : 'polygon(0 35%, 100% 0, 100% 100%, 0% 100%)'
           }}

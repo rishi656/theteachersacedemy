@@ -16,8 +16,10 @@ import { ContactPage } from './pages/ContactPage';
 import { BlogPage } from './pages/BlogPage';
 import { BlogPostPage } from './pages/BlogPostPage';
 import { BooksPage } from './pages/BooksPage';
+import { useSmoothScroll } from './hooks/useSmoothScroll';
 
 function App() {
+  useSmoothScroll();
   return (
     <Router>
       <div className="relative min-h-screen bg-[#F8F9FA] font-sans antialiased text-[#17172B] overflow-x-hidden">
